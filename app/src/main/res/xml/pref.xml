@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen
+	xmlns:android="http://schemas.android.com/apk/res/android">
+	<PreferenceCategory android:title="設定">
+		<CheckBoxPreference
+			android:key="proxycheckbox"
+			android:title="プロキシを利用する"/>
+		<EditTextPreference
+			android:key="proxystring"
+			android:title="プロキシ設定"
+			android:summary="ランキング参加に利用するプロキシ"
+			android:dialogTitle="host:portの形式で入力してください" />
+	</PreferenceCategory>
+</PreferenceScreen>
