@@ -69,10 +69,8 @@ public class Bubble extends EnemyBullet{
 
 	@Override
 	public boolean IsLeaveScreen() {
-		if(x<0-LEAVE_RANGE || mit.WINDOW_W+LEAVE_RANGE<x || y<0-LEAVE_RANGE || mit.WINDOW_H+LEAVE_RANGE<y)
-			return true;
-		return false;
-	}
+        return x < -LEAVE_RANGE || mit.WINDOW_W + LEAVE_RANGE < x || y < -LEAVE_RANGE || mit.WINDOW_H + LEAVE_RANGE < y;
+    }
 
 	@Override
 	public boolean IsEnable() {

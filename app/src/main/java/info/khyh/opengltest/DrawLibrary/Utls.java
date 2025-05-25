@@ -1,32 +1,19 @@
 package info.khyh.opengltest.DrawLibrary;
 
-import java.io.UnsupportedEncodingException;
-import java.util.ArrayList;
-
-import org.apache.http.HttpEntity;
-import org.apache.http.HttpHost;
-import org.apache.http.HttpResponse;
-import org.apache.http.NameValuePair;
-import org.apache.http.client.entity.UrlEncodedFormEntity;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.conn.params.ConnRoutePNames;
-import org.apache.http.entity.StringEntity;
-import org.apache.http.impl.client.DefaultHttpClient;
-import org.apache.http.message.BasicNameValuePair;
-import org.apache.http.protocol.HTTP;
-import org.apache.http.util.EntityUtils;
-
-import android.app.Activity;
+import java.net.InetSocketAddress;
+import java.net.Proxy;
+import java.io.IOException;
+import okhttp3.OkHttpClient;
+import okhttp3.FormBody;
+import okhttp3.Request;
+import okhttp3.Response;
+import okhttp3.logging.HttpLoggingInterceptor;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.SharedPreferences;
-import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.util.Log;
 import info.khyh.opengltest.MainActivity;
 import info.khyh.opengltest.GameClass.Mediator;
-import android.widget.EditText;
 import info.khyh.opengltest.Library.Vector2;
 import info.khyh.opengltest.Library.Vector3;
 
@@ -48,8 +35,7 @@ public class Utls {
 		float my = (1.0f-i)*ctrl.y+i*end.y;
 		return new Vector2((1.0f-i)*px+i*mx, (1.0f-i)*py+i*my);
 	}
-	
-	//����ړ���������Čv�Z
+
 	static public Vector2 GetLinerMove(Vector2 start, Vector2 end, int param, int div)
 	{
 		float ratio = (float)param / (float)div;
@@ -57,7 +43,6 @@ public class Utls {
 		float vecy = end.y - start.y;
 		float velx = start.x+vecx*ratio;
 		float vely = start.y+vecy*ratio;
-		//Log.v(MainActivity.Tag,String.format("ratio:%s vecx:%s vecy:%s velx:%s vely:%s",ratio, vecx, vecy, velx, vely));
 		return new Vector2(velx, vely);
 	}
 	
@@ -107,40 +92,55 @@ public class Utls {
 			vec.y=mit.WINDOW_H;
 		return vec;
 	}
-	
-	static public void POSTscore(String name, int score, Context cxt)
-	{
+
+	static public void POSTscore(String name, int score, Context cxt) {
 		SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(cxt);
-		boolean useproxy = sp.getBoolean("proxycheckbox", false);
-		String proxystring = sp.getString("proxystring", "");
-		
-		DefaultHttpClient httpclient = new DefaultHttpClient();
-		if(useproxy)
-		{
-			String part[] = proxystring.split(":");
-			HttpHost proxy = new HttpHost(part[0], Integer.valueOf(part[1]), "http");
-			httpclient.getParams().setParameter(ConnRoutePNames.DEFAULT_PROXY, proxy);
-		}
-		HttpPost post = new HttpPost(RANKING_POST_URL);
-		ArrayList<NameValuePair> params = new ArrayList<NameValuePair>();
-		params.add(new BasicNameValuePair("name", name));
-		params.add(new BasicNameValuePair("score", String.valueOf(score)));
-		params.add(new BasicNameValuePair("ranking_id", RANKING_ID));
-		
-		try {
-			post.setEntity(new UrlEncodedFormEntity(params, HTTP.UTF_8));
-			Log.v(MainActivity.Tag, "SCOREをPOST");
-			final HttpResponse response = httpclient.execute(post);
-			if(response.getStatusLine().getStatusCode() != 200 )
-				Log.v(MainActivity.Tag, "StatusCodeが異常☆:"+response.getStatusLine().getStatusCode());
-			HttpEntity entity = response.getEntity();
-            Log.v(MainActivity.Tag,EntityUtils.toString(entity));
-		} catch (Exception e) {
-			e.printStackTrace();
-		}finally {
-			httpclient.getConnectionManager().shutdown();
+		boolean useProxy   = sp.getBoolean("proxycheckbox", false);
+		String  proxyStr   = sp.getString("proxystring", "");        // "host:port" 形式
+
+		/* ---------- OkHttpClient 構築 ---------- */
+		OkHttpClient.Builder builder = new OkHttpClient.Builder();
+
+		// ★ デバッグ用の HTTP ログ（任意）
+		HttpLoggingInterceptor logInt = new HttpLoggingInterceptor(
+				msg -> Log.v(MainActivity.Tag, msg));
+		logInt.setLevel(HttpLoggingInterceptor.Level.BASIC);
+		builder.addInterceptor(logInt);
+
+		// ★ プロキシ設定（必要な場合のみ）
+		if (useProxy) {
+			String[] part = proxyStr.split(":");
+			builder.proxy(new Proxy(
+					Proxy.Type.HTTP,
+					new InetSocketAddress(part[0], Integer.parseInt(part[1]))));
 		}
 
+		OkHttpClient client = builder.build();
+
+		/* ---------- フォームデータ ---------- */
+		FormBody body = new FormBody.Builder()
+				.add("name",        name)
+				.add("score",       String.valueOf(score))
+				.add("ranking_id",  RANKING_ID)
+				.build();
+
+		/* ---------- POST リクエスト ---------- */
+		Request request = new Request.Builder()
+				.url(RANKING_POST_URL)
+				.post(body)
+				.build();
+
+		/* ---------- 同期実行（呼び出し元がバックグラウンドスレッドの場合） ---------- */
+		try (Response response = client.newCall(request).execute()) {
+			if (!response.isSuccessful()) {
+				Log.w(MainActivity.Tag,
+						"Unexpected code " + response.code());
+			}
+			Log.v(MainActivity.Tag,
+					"Response: " + response.body().string());
+		} catch (IOException e) {
+			Log.e(MainActivity.Tag, "POST failed", e);
+		}
 	}
 	
 }
