@@ -7,9 +7,11 @@ import info.khyh.opengltest.Library.Graphics.BLENDTYPE;
 import info.khyh.opengltest.Library.Vector2;
 
 public class Bubble extends EnemyBullet{
-	private double angle,spd,width,height;
-	private final int LEAVE_RANGE = 64;
-	private int cnt;
+	private final double angle;
+    private final double spd;
+    private final double width;
+    private final double height;
+    private int cnt;
 
 	public Bubble(double x, double y, double angle, double spd, double width, double height, Mediator mit) {
 		super(x, y, mit);
@@ -40,17 +42,21 @@ public class Bubble extends EnemyBullet{
 	@Override
 	public void Draw(GL11 gl) {
 		if(cnt%10>5)
-		mit.GetGraphics().drawImage(mit.GetLoadResource().bubble, mit.GetDrawMain().aspect, 
-				(int)(x-width/2), (int)(y-height/2), (int)width, (int)height, 
-				0, 0, 128, 128, 
-				1.0f, 1.0f, 1.0f, 1.0f, 
-				(float)Math.toDegrees(-angle)+90, BLENDTYPE.ALPHA);
+		{
+			mit.GetGraphics().drawImage(mit.GetLoadResource().bubble, mit.GetDrawMain().aspect,
+					(int)(x-width/2), (int)(y-height/2), (int)width, (int)height,
+					0, 0, 128, 128,
+					1.0f, 1.0f, 1.0f, 1.0f,
+					(float)Math.toDegrees(-angle)+90, BLENDTYPE.ALPHA);
+		}
 		else
-		mit.GetGraphics().drawImage(mit.GetLoadResource().bubble, mit.GetDrawMain().aspect, 
-				(int)(x-width/2), (int)(y-height/2), (int)width, (int)height, 
-				0, 0, 128, 128, 
-				1.0f, 1.0f, 1.0f, 1.0f, 
-				(float)Math.toDegrees(-angle)+90, BLENDTYPE.XOR);
+		{
+			mit.GetGraphics().drawImage(mit.GetLoadResource().bubble, mit.GetDrawMain().aspect,
+					(int)(x-width/2), (int)(y-height/2), (int)width, (int)height,
+					0, 0, 128, 128,
+					1.0f, 1.0f, 1.0f, 1.0f,
+					(float)Math.toDegrees(-angle)+90, BLENDTYPE.XOR);
+		}
 		
 //		DrawFuncs.DrawModiTexture(mit.GetGraphics(), mit.GetLoadResource().FILTER, 
 //		pos[0].x, pos[0].y, 
@@ -65,10 +71,9 @@ public class Bubble extends EnemyBullet{
 
 	@Override
 	public boolean IsLeaveScreen() {
-		if(x<0-LEAVE_RANGE || mit.WINDOW_W+LEAVE_RANGE<x || y<0-LEAVE_RANGE || mit.WINDOW_H+LEAVE_RANGE<y)
-			return true;
-		return false;
-	}
+        int LEAVE_RANGE = 64;
+        return x < -LEAVE_RANGE || mit.WINDOW_W + LEAVE_RANGE < x || y < -LEAVE_RANGE || mit.WINDOW_H + LEAVE_RANGE < y;
+    }
 
 	@Override
 	public boolean IsEnable() {

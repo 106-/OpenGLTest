@@ -7,9 +7,7 @@ import android.preference.DialogPreference;
 import android.preference.PreferenceManager;
 import android.util.AttributeSet;
 import android.view.View;
-import android.widget.Button;
 import android.widget.SeekBar;
-import android.widget.TextView;
 
 public class SeekBarPreference extends DialogPreference{
 	private int value;
@@ -52,6 +50,7 @@ public class SeekBarPreference extends DialogPreference{
 	@Override
 	protected void onBindDialogView(View v)
 	{
+		super.onBindDialogView(v);
 		sb = (SeekBar)v.findViewById(R.id.seekBar1);
 		sb.setOnSeekBarChangeListener(new SBchange());
 		sb.setMax(100);

@@ -1,31 +1,24 @@
 package info.khyh.opengltest;
 
-import info.khyh.opengltest.R;
-import info.khyh.opengltest.R.layout;
-import info.khyh.opengltest.R.menu;
 import info.khyh.opengltest.DrawLibrary.Utls;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.support.v4.widget.SimpleCursorAdapter.ViewBinder;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
 public class TitleActivity extends Activity {
-	private ImageButton startbtn, expbtn, quitbtn, settingbtn, rankbtn;
 	private final int GAMEACTIVITY = 1,
 						SETTINGS = 1;
 
@@ -34,15 +27,15 @@ public class TitleActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_title);
 
-		startbtn = (ImageButton)findViewById(R.id.start);
+		ImageButton startbtn = (ImageButton)findViewById(R.id.start);
 		startbtn.setOnClickListener(new startsituation());
-		expbtn = (ImageButton)findViewById(R.id.about);
+		ImageButton expbtn = (ImageButton)findViewById(R.id.about);
 		expbtn.setOnClickListener(new startexpression());
-		quitbtn = (ImageButton)findViewById(R.id.quit);
+		ImageButton quitbtn = (ImageButton)findViewById(R.id.quit);
 		quitbtn.setOnClickListener(new quitsituation());
-		settingbtn = (ImageButton)findViewById(R.id.setting);
+		ImageButton settingbtn = (ImageButton)findViewById(R.id.setting);
 		settingbtn.setOnClickListener(new settingbtn(this));
-		rankbtn = (ImageButton)findViewById(R.id.ranking);
+		ImageButton rankbtn = (ImageButton)findViewById(R.id.ranking);
 		rankbtn.setOnClickListener(new rankbtrn(this));
 	}
 
@@ -67,8 +60,8 @@ public class TitleActivity extends Activity {
                 Bundle extras = intent.getExtras();  
                 if (extras != null)
                 {  
-                	score = extras.getInt("SCORE");
-                    Log.v(MainActivity.Tag, "SCORE:"+score);
+					score = extras.getInt("SCORE");
+					Log.v(MainActivity.Tag, "SCORE:"+score);
                 }
             }
         }  
