@@ -121,7 +121,7 @@ public abstract class DrawMain {
         Log.v(MainActivity.Tag, "-----*状況終了*-----");
         Log.v(MainActivity.Tag, "====それではごきげんよう====");
         act.setResult(Activity.RESULT_OK,intent); 
-		act.finish();
+        act.finish();
 	}
 	public Context GetContext(){return cxt;}
 	public Handler GetHandler(){return handler;}

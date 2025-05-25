@@ -7,9 +7,11 @@ import info.khyh.opengltest.Library.Graphics.BLENDTYPE;
 import info.khyh.opengltest.Library.Vector2;
 
 public class Bubble extends EnemyBullet{
-	private double angle,spd,width,height;
-	private final int LEAVE_RANGE = 64;
-	private int cnt;
+	private final double angle;
+    private final double spd;
+    private final double width;
+    private final double height;
+    private int cnt;
 
 	public Bubble(double x, double y, double angle, double spd, double width, double height, Mediator mit) {
 		super(x, y, mit);
@@ -69,6 +71,7 @@ public class Bubble extends EnemyBullet{
 
 	@Override
 	public boolean IsLeaveScreen() {
+        int LEAVE_RANGE = 64;
         return x < -LEAVE_RANGE || mit.WINDOW_W + LEAVE_RANGE < x || y < -LEAVE_RANGE || mit.WINDOW_H + LEAVE_RANGE < y;
     }
 
