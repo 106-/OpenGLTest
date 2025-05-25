@@ -52,6 +52,7 @@ public class SeekBarPreference extends DialogPreference{
 	@Override
 	protected void onBindDialogView(View v)
 	{
+		super.onBindDialogView(v);
 		sb = (SeekBar)v.findViewById(R.id.seekBar1);
 		sb.setOnSeekBarChangeListener(new SBchange());
 		sb.setMax(100);

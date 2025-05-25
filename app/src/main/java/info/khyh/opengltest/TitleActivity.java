@@ -67,8 +67,8 @@ public class TitleActivity extends Activity {
                 Bundle extras = intent.getExtras();  
                 if (extras != null)
                 {  
-                	score = extras.getInt("SCORE");
-                    Log.v(MainActivity.Tag, "SCORE:"+score);
+					score = extras.getInt("SCORE");
+					Log.v(MainActivity.Tag, "SCORE:"+score);
                 }
             }
         }  

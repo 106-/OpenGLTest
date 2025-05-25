@@ -1,29 +1,39 @@
-apply plugin: 'com.android.application'
+
+plugins {
+    id 'com.android.application'
+}
 
 android {
-    compileSdkVersion 33
-    buildToolsVersion "33.0.2"
+    namespace 'info.khyh.opengltest'
+    compileSdk 33
+
     defaultConfig {
-        applicationId "info.khyh.opengltest"
-        minSdkVersion 21
-        targetSdkVersion 33
+        applicationId 'info.khyh.opengltest'
+        minSdk 21
+        targetSdk 33
     }
+
+    buildToolsVersion '33.0.2'
 
     buildTypes {
         release {
             minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.txt'
+            proguardFiles(
+                    getDefaultProguardFile('proguard-android.txt'),
+                    'proguard-rules.txt'
+            )
         }
     }
 
     packagingOptions {
-        exclude 'META-INF/LICENSE.txt'
-        exclude 'META-INF/DEPENDENCIES'
+        resources {
+            excludes += ['META-INF/LICENSE.txt', 'META-INF/DEPENDENCIES']
+        }
     }
 
     compileOptions {
-        sourceCompatibility JavaVersion.toVersion(17)
-        targetCompatibility JavaVersion.toVersion(17)
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
     }
 }
 

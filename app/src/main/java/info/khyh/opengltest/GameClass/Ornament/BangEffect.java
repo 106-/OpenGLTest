@@ -27,8 +27,26 @@ public class BangEffect extends Ornament {
 	@Override
 	public void Draw(GL11 gl) {
 		if(this.cnt < FRAMEMAX*2)
-		mit.GetGraphics().drawImage(mit.GetLoadResource().CHARACTER, 1.0f, 
-				(int)(x-WIDTH*2), (int)(y-HEIGHT*2), WIDTH*4, HEIGHT*4, WIDTH*((cnt-1)/2), 30, WIDTH, HEIGHT, 1,1,1,1, 0.0f, BLENDTYPE.ADD);
+		{
+			mit.GetGraphics().drawImage(
+					mit.GetLoadResource().CHARACTER,
+					1.0f,
+					(int)(x-WIDTH*2),
+					(int)(y-HEIGHT*2),
+					WIDTH*4,
+					HEIGHT*4,
+					WIDTH*((cnt-1)/2),
+					30,
+					WIDTH,
+					HEIGHT,
+					1,
+					1,
+					1,
+					1,
+					0.0f,
+					BLENDTYPE.ADD
+			);
+		}
 	}
 
 	@Override

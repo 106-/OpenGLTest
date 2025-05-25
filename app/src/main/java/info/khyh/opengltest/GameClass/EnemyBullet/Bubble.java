@@ -40,17 +40,21 @@ public class Bubble extends EnemyBullet{
 	@Override
 	public void Draw(GL11 gl) {
 		if(cnt%10>5)
-		mit.GetGraphics().drawImage(mit.GetLoadResource().bubble, mit.GetDrawMain().aspect, 
-				(int)(x-width/2), (int)(y-height/2), (int)width, (int)height, 
-				0, 0, 128, 128, 
-				1.0f, 1.0f, 1.0f, 1.0f, 
-				(float)Math.toDegrees(-angle)+90, BLENDTYPE.ALPHA);
+		{
+			mit.GetGraphics().drawImage(mit.GetLoadResource().bubble, mit.GetDrawMain().aspect,
+					(int)(x-width/2), (int)(y-height/2), (int)width, (int)height,
+					0, 0, 128, 128,
+					1.0f, 1.0f, 1.0f, 1.0f,
+					(float)Math.toDegrees(-angle)+90, BLENDTYPE.ALPHA);
+		}
 		else
-		mit.GetGraphics().drawImage(mit.GetLoadResource().bubble, mit.GetDrawMain().aspect, 
-				(int)(x-width/2), (int)(y-height/2), (int)width, (int)height, 
-				0, 0, 128, 128, 
-				1.0f, 1.0f, 1.0f, 1.0f, 
-				(float)Math.toDegrees(-angle)+90, BLENDTYPE.XOR);
+		{
+			mit.GetGraphics().drawImage(mit.GetLoadResource().bubble, mit.GetDrawMain().aspect,
+					(int)(x-width/2), (int)(y-height/2), (int)width, (int)height,
+					0, 0, 128, 128,
+					1.0f, 1.0f, 1.0f, 1.0f,
+					(float)Math.toDegrees(-angle)+90, BLENDTYPE.XOR);
+		}
 		
 //		DrawFuncs.DrawModiTexture(mit.GetGraphics(), mit.GetLoadResource().FILTER, 
 //		pos[0].x, pos[0].y, 
